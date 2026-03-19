@@ -270,6 +270,13 @@ export default function Index() {
         </div>
 
         <div className="flex items-center gap-3">
+          <a
+            href="tel:+79533555693"
+            className="flex h-9 items-center gap-1.5 rounded-lg bg-foreground/10 px-3 backdrop-blur-md transition-all hover:bg-foreground/20 md:hidden"
+          >
+            <span className="font-mono text-xs text-foreground">+7 953 355-56-93</span>
+          </a>
+
           <div className="hidden md:block">
             <MagneticButton size="default" variant="secondary" onClick={() => scrollToSection(4)}>
               Вызвать мастера
