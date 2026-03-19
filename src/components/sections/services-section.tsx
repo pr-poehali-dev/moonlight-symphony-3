@@ -1,4 +1,5 @@
 import { useReveal } from "@/hooks/use-reveal"
+import Icon from "@/components/ui/icon"
 
 export function ServicesSection() {
   const { ref, isVisible } = useReveal(0.3)
@@ -6,7 +7,7 @@ export function ServicesSection() {
   return (
     <section
       ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start items-center px-6 pt-20 md:px-12 md:pt-0 lg:px-16 overflow-hidden"
+      className="flex h-screen w-screen shrink-0 snap-start flex-col justify-center px-6 pt-20 md:px-12 md:pt-0 lg:px-16 overflow-hidden"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div
@@ -26,31 +27,37 @@ export function ServicesSection() {
               title: "Видеонаблюдение",
               description: "IP-камеры и системы записи для дома и территории. Удалённый просмотр с телефона 24/7",
               direction: "top",
+              icon: "Camera",
             },
             {
               title: "Электромонтаж",
               description: "Профессиональный монтаж электрики: щитки, розетки, освещение — под ключ с гарантией",
               direction: "right",
+              icon: "Zap",
             },
             {
               title: "Домофония и контроль доступа",
               description: "Видеодомофоны, электромагнитные замки и умные ключи для квартир и коттеджей",
               direction: "left",
+              icon: "DoorOpen",
             },
             {
               title: "Бесшовный Wi-Fi",
               description: "Mesh-сети и точки доступа для полного покрытия дома без мёртвых зон",
               direction: "bottom",
+              icon: "Wifi",
             },
             {
               title: "Умный дом",
               description: "Автоматизация отопления, света, вентиляции и охраны — управление со смартфона",
               direction: "top",
+              icon: "Home",
             },
             {
               title: "Техническое обслуживание",
               description: "Регулярное обслуживание и поддержка систем безопасности после установки",
               direction: "right",
+              icon: "Wrench",
             },
           ].map((service, i) => (
             <ServiceCard key={i} service={service} index={i} isVisible={isVisible} />
@@ -66,7 +73,7 @@ function ServiceCard({
   index,
   isVisible,
 }: {
-  service: { title: string; description: string; direction: string }
+  service: { title: string; description: string; direction: string; icon: string }
   index: number
   isVisible: boolean
 }) {
@@ -96,7 +103,9 @@ function ServiceCard({
       }}
     >
       <div className="mb-3 flex items-center gap-3">
-        <div className="h-px w-8 bg-foreground/30 transition-all duration-300 group-hover:w-12 group-hover:bg-foreground/50" />
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/10 text-foreground/70 transition-all duration-300 group-hover:bg-foreground/20 group-hover:text-foreground">
+          <Icon name={service.icon} size={18} />
+        </div>
         <span className="font-mono text-xs text-foreground/60">0{index + 1}</span>
       </div>
       <h3 className="mb-1.5 font-sans text-lg font-light text-foreground md:text-xl lg:text-2xl">{service.title}</h3>
