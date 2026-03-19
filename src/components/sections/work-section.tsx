@@ -17,31 +17,38 @@ export function WorkSection() {
           <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
             Проекты
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Избранные работы</p>
+          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Реализованные объекты</p>
         </div>
 
         <div className="space-y-6 md:space-y-8">
           {[
             {
               number: "01",
-              title: "ТехноСтарт",
-              category: "Корпоративный портал",
-              year: "2024",
+              title: "Коттедж в Подмосковье",
+              category: "Видеонаблюдение + Умный дом",
+              year: "2025",
               direction: "left",
             },
             {
               number: "02",
-              title: "АльфаТрейд",
-              category: "Финтех платформа",
-              year: "2024",
+              title: "ЖК «Берёзовый»",
+              category: "Домофония + Контроль доступа",
+              year: "2025",
               direction: "right",
             },
             {
               number: "03",
-              title: "МедиаПульс",
-              category: "Медиа сервис",
-              year: "2023",
+              title: "Загородный дом 450м²",
+              category: "Бесшовный Wi-Fi + Электромонтаж",
+              year: "2024",
               direction: "left",
+            },
+            {
+              number: "04",
+              title: "Таунхаус на 12 семей",
+              category: "Комплексная безопасность под ключ",
+              year: "2024",
+              direction: "right",
             },
           ].map((project, i) => (
             <ProjectCard key={i} project={project} index={i} isVisible={isVisible} />

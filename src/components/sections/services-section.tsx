@@ -17,30 +17,40 @@ export function ServicesSection() {
           <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
             Услуги
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Наши компетенции</p>
+          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Что мы устанавливаем</p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 md:gap-x-16 md:gap-y-12 lg:gap-x-24">
           {[
             {
-              title: "Веб-разработка",
-              description: "Создание современных веб-приложений любой сложности",
+              title: "Видеонаблюдение",
+              description: "IP-камеры и системы записи для дома и территории. Удалённый просмотр с телефона 24/7",
               direction: "top",
             },
             {
-              title: "UI/UX Дизайн",
-              description: "Проектирование удобных и красивых интерфейсов",
+              title: "Электромонтаж",
+              description: "Профессиональный монтаж электрики: щитки, розетки, освещение — под ключ с гарантией",
               direction: "right",
             },
             {
-              title: "Мобильные приложения",
-              description: "Кроссплатформенная разработка для iOS и Android",
+              title: "Домофония и контроль доступа",
+              description: "Видеодомофоны, электромагнитные замки и умные ключи для квартир и коттеджей",
               direction: "left",
             },
             {
-              title: "Консалтинг",
-              description: "Техническая экспертиза и стратегическое планирование",
+              title: "Бесшовный Wi-Fi",
+              description: "Mesh-сети и точки доступа для полного покрытия дома без мёртвых зон",
               direction: "bottom",
+            },
+            {
+              title: "Умный дом",
+              description: "Автоматизация отопления, света, вентиляции и охраны — управление со смартфона",
+              direction: "top",
+            },
+            {
+              title: "Техническое обслуживание",
+              description: "Регулярное обслуживание и поддержка систем безопасности после установки",
+              direction: "right",
             },
           ].map((service, i) => (
             <ServiceCard key={i} service={service} index={i} isVisible={isVisible} />
