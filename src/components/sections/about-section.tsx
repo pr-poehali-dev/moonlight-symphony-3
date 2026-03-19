@@ -34,7 +34,7 @@ export function AboutSection({ scrollToSection }: { scrollToSection?: (index: nu
               style={{ transitionDelay: "200ms" }}
             >
               <p className="max-w-md text-sm leading-relaxed text-foreground/90 md:text-lg">
-                Мы команда сертифицированных специалистов по системам безопасности. Работаем с загородными домами, коттеджами и квартирами по всему Подмосковью.
+                Мы команда сертифицированных специалистов по системам безопасности. Работаем с загородными домами, коттеджами и квартирами по всему Санкт-Петербургу и Ленинградской области.
               </p>
               <p className="max-w-md text-sm leading-relaxed text-foreground/90 md:text-lg">
                 Каждый объект — это полный цикл: от проекта и монтажа до настройки и гарантийного обслуживания.
@@ -45,8 +45,8 @@ export function AboutSection({ scrollToSection }: { scrollToSection?: (index: nu
           {/* Right side - Stats with creative layout */}
           <div className="flex flex-col justify-center space-y-6 md:space-y-12">
             {[
-              { value: "200+", label: "Объектов", sublabel: "Сданы под ключ", direction: "right" },
-              { value: "7", label: "Лет", sublabel: "На рынке безопасности", direction: "left" },
+              { value: "500+", label: "Объектов", sublabel: "Сданы под ключ в СПб и ЛО", direction: "right" },
+              { value: "12", label: "Лет", sublabel: "На рынке безопасности", direction: "left" },
               { value: "100%", label: "Гарантия", sublabel: "На все виды работ", direction: "right" },
             ].map((stat, i) => {
               const getRevealClass = () => {

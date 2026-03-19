@@ -24,28 +24,28 @@ export function WorkSection() {
           {[
             {
               number: "01",
-              title: "Коттедж в Подмосковье",
+              title: "Коттедж в Токсово",
               category: "Видеонаблюдение + Умный дом",
               year: "2025",
               direction: "left",
             },
             {
               number: "02",
-              title: "ЖК «Берёзовый»",
+              title: "ЖК «Северная Долина»",
               category: "Домофония + Контроль доступа",
               year: "2025",
               direction: "right",
             },
             {
               number: "03",
-              title: "Загородный дом 450м²",
+              title: "Загородный дом во Всеволожске",
               category: "Бесшовный Wi-Fi + Электромонтаж",
               year: "2024",
               direction: "left",
             },
             {
               number: "04",
-              title: "Таунхаус на 12 семей",
+              title: "Таунхаус в Мурино",
               category: "Комплексная безопасность под ключ",
               year: "2024",
               direction: "right",

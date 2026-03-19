@@ -1,0 +1,28 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Missing fields",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "", "email": "", "message": ""},
+      "expectedStatus": 400,
+      "expectedBody": {"error": "Все поля обязательны"},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Valid lead submission",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Тест Тестов", "email": "test@test.ru", "message": "Хочу видеонаблюдение в коттедж"},
+      "expectedStatus": 200,
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
+    }
+  ]
+}

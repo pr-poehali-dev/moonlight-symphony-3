@@ -12,21 +12,20 @@ export function ContactSection() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    // Basic validation
-    if (!formData.name || !formData.email || !formData.message) {
-      return
-    }
+    if (!formData.name || !formData.email || !formData.message) return
 
     setIsSubmitting(true)
 
-    // Simulate form submission (replace with actual API call later)
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    await fetch("https://functions.poehali.dev/657e434e-00af-4470-a3bd-98a3efc94d9f", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    })
 
     setIsSubmitting(false)
     setSubmitSuccess(true)
     setFormData({ name: "", email: "", message: "" })
 
-    // Reset success message after 5 seconds
     setTimeout(() => setSubmitSuccess(false), 5000)
   }
 
@@ -69,7 +68,7 @@ export function ContactSection() {
               </a>
 
               <a
-                href="mailto:info@securdom.ru"
+                href="mailto:info@strajdom.ru"
                 className={`group block transition-all duration-700 ${
                   isVisible ? "translate-x-0 opacity-100" : "-translate-x-16 opacity-0"
                 }`}
@@ -80,7 +79,7 @@ export function ContactSection() {
                   <span className="font-mono text-xs text-foreground/60">Email</span>
                 </div>
                 <p className="text-base text-foreground transition-colors group-hover:text-foreground/70 md:text-2xl">
-                  info@securdom.ru
+                  info@strajdom.ru
                 </p>
               </a>
 
@@ -94,7 +93,7 @@ export function ContactSection() {
                   <MapPin className="h-3 w-3 text-foreground/60" />
                   <span className="font-mono text-xs text-foreground/60">Локация</span>
                 </div>
-                <p className="text-base text-foreground md:text-2xl">Москва и Подмосковье</p>
+                <p className="text-base text-foreground md:text-2xl">Санкт-Петербург и Лен. область</p>
               </div>
 
               <div
