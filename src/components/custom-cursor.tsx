@@ -7,7 +7,10 @@ export function CustomCursor() {
   const targetPositionRef = useRef({ x: 0, y: 0 })
   const isPointerRef = useRef(false)
 
+  const isTouchDevice = typeof window !== "undefined" && window.matchMedia("(hover: none)").matches
+
   useEffect(() => {
+    if (isTouchDevice) return
     let animationFrameId: number
 
     const lerp = (start: number, end: number, factor: number) => {
@@ -45,6 +48,8 @@ export function CustomCursor() {
       cancelAnimationFrame(animationFrameId)
     }
   }, [])
+
+  if (isTouchDevice) return null
 
   return (
     <>

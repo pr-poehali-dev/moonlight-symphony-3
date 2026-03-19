@@ -7,11 +7,13 @@ import { AboutSection } from "@/components/sections/about-section"
 import { ContactSection } from "@/components/sections/contact-section"
 import { MagneticButton } from "@/components/magnetic-button"
 import { useRef, useEffect, useState } from "react"
+import Icon from "@/components/ui/icon"
 
 export default function Index() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [currentSection, setCurrentSection] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const touchStartY = useRef(0)
   const touchStartX = useRef(0)
   const shaderContainerRef = useRef<HTMLDivElement>(null)
@@ -56,6 +58,7 @@ export default function Index() {
       })
       setCurrentSection(index)
     }
+    setMobileMenuOpen(false)
   }
 
   useEffect(() => {
@@ -170,6 +173,8 @@ export default function Index() {
     }
   }, [currentSection])
 
+  const navItems = ["Главная", "Работы", "Услуги", "О нас", "Контакты"]
+
   return (
     <main className="relative h-screen w-full overflow-hidden bg-background">
       <CustomCursor />
@@ -210,8 +215,33 @@ export default function Index() {
         <div className="absolute inset-0 bg-black/20" />
       </div>
 
+      {/* Mobile menu overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-40 flex flex-col justify-center bg-background/95 px-8 backdrop-blur-xl md:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <div className="space-y-2">
+            {navItems.map((item, index) => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(index)}
+                className="block w-full py-4 text-left font-sans text-3xl font-light text-foreground transition-opacity hover:opacity-70"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          <div className="mt-8">
+            <MagneticButton variant="primary" size="lg" onClick={() => scrollToSection(4)}>
+              Вызвать мастера
+            </MagneticButton>
+          </div>
+        </div>
+      )}
+
       <nav
-        className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-6 py-6 transition-opacity duration-700 md:px-12 ${
+        className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-4 py-4 transition-opacity duration-700 md:px-12 md:py-6 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -219,14 +249,14 @@ export default function Index() {
           onClick={() => scrollToSection(0)}
           className="flex items-center gap-2 transition-transform hover:scale-105"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25">
-            <span className="font-sans text-xl font-bold text-foreground">Х</span>
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25 md:h-10 md:w-10">
+            <span className="font-sans text-lg font-bold text-foreground md:text-xl">Х</span>
           </div>
-          <span className="font-sans text-xl font-semibold tracking-tight text-foreground">ХоумКомфорт</span>
+          <span className="font-sans text-base font-semibold tracking-tight text-foreground md:text-xl">ХоумКомфорт</span>
         </button>
 
         <div className="hidden items-center gap-8 md:flex">
-          {["Главная", "Работы", "Услуги", "О нас", "Контакты"].map((item, index) => (
+          {navItems.map((item, index) => (
             <button
               key={item}
               onClick={() => scrollToSection(index)}
@@ -244,9 +274,19 @@ export default function Index() {
           ))}
         </div>
 
-        <MagneticButton variant="secondary" onClick={() => scrollToSection(4)}>
-          Вызвать мастера
-        </MagneticButton>
+        <div className="hidden md:block">
+          <MagneticButton variant="secondary" onClick={() => scrollToSection(4)}>
+            Вызвать мастера
+          </MagneticButton>
+        </div>
+
+        <button
+          className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md md:hidden"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Меню"
+        >
+          <Icon name={mobileMenuOpen ? "X" : "Menu"} size={18} />
+        </button>
       </nav>
 
       <div
@@ -258,22 +298,22 @@ export default function Index() {
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* Hero Section */}
-        <section className="flex min-h-screen w-screen shrink-0 flex-col justify-end px-6 pb-16 pt-24 md:px-12 md:pb-24">
+        <section className="flex min-h-screen w-screen shrink-0 flex-col justify-end px-4 pb-12 pt-20 md:px-12 md:pb-24 md:pt-24">
           <div className="max-w-3xl">
-            <div className="mb-4 inline-block animate-in fade-in slide-in-from-bottom-4 rounded-full border border-foreground/20 bg-foreground/15 px-4 py-1.5 backdrop-blur-md duration-700">
+            <div className="mb-4 inline-block animate-in fade-in slide-in-from-bottom-4 rounded-full border border-foreground/20 bg-foreground/15 px-3 py-1.5 backdrop-blur-md duration-700 md:px-4">
               <p className="font-mono text-xs text-foreground/90">Профессиональная установка под ключ</p>
             </div>
-            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-sans text-6xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 md:text-7xl lg:text-8xl">
+            <h1 className="mb-4 animate-in fade-in slide-in-from-bottom-8 font-sans text-4xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-5xl md:mb-6 md:text-7xl lg:text-8xl">
               <span className="text-balance">
                 Комфорт в ваш дом
               </span>
             </h1>
-            <p className="mb-8 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-lg leading-relaxed text-foreground/90 duration-1000 delay-200 md:text-xl">
+            <p className="mb-6 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-foreground/90 duration-1000 delay-200 md:mb-8 md:text-xl">
               <span className="text-pretty">
                 Видеонаблюдение, умный дом и безопасность для загородных домов и квартир. Установка «под ключ» — без лишних хлопот.
               </span>
             </p>
-            <div className="flex animate-in fade-in slide-in-from-bottom-4 flex-col gap-4 duration-1000 delay-300 sm:flex-row sm:items-center">
+            <div className="flex animate-in fade-in slide-in-from-bottom-4 flex-col gap-3 duration-1000 delay-300 sm:flex-row sm:items-center sm:gap-4">
               <MagneticButton
                 size="lg"
                 variant="primary"
@@ -287,7 +327,7 @@ export default function Index() {
             </div>
           </div>
 
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-in fade-in duration-1000 delay-500">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-in fade-in duration-1000 delay-500 md:bottom-8">
             <div className="flex items-center gap-2">
               <p className="font-mono text-xs text-foreground/80">Листайте вправо</p>
               <div className="flex h-6 w-12 items-center justify-center rounded-full border border-foreground/20 bg-foreground/15 backdrop-blur-md">
@@ -301,6 +341,19 @@ export default function Index() {
         <ServicesSection />
         <AboutSection scrollToSection={scrollToSection} />
         <ContactSection />
+      </div>
+
+      {/* Section dots indicator */}
+      <div className="fixed bottom-4 right-4 z-40 flex gap-1.5 md:hidden">
+        {navItems.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => scrollToSection(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              currentSection === i ? "w-4 bg-foreground" : "w-1.5 bg-foreground/40"
+            }`}
+          />
+        ))}
       </div>
 
       <style>{`

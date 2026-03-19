@@ -7,21 +7,21 @@ export function ServicesSection() {
   return (
     <section
       ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start flex-col justify-center px-6 pt-20 md:px-12 md:pt-0 lg:px-16 overflow-hidden"
+      className="flex h-screen w-screen shrink-0 snap-start flex-col justify-center overflow-hidden px-4 pt-20 md:px-12 md:pt-0 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div
-          className={`mb-6 transition-all duration-700 md:mb-8 ${
+          className={`mb-4 transition-all duration-700 md:mb-8 ${
             isVisible ? "translate-y-0 opacity-100" : "-translate-y-12 opacity-0"
           }`}
         >
-          <h2 className="mb-2 font-sans text-4xl font-light tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h2 className="mb-1 font-sans text-3xl font-light tracking-tight text-foreground md:mb-2 md:text-5xl lg:text-6xl">
             Услуги
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Что мы устанавливаем</p>
+          <p className="font-mono text-xs text-foreground/60 md:text-base">/ Что мы устанавливаем</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 md:gap-x-12 md:gap-y-8 lg:gap-x-16">
+        <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 md:grid-cols-3 md:gap-x-12 md:gap-y-8 lg:gap-x-16">
           {[
             {
               title: "Видеонаблюдение",
@@ -97,19 +97,21 @@ function ServiceCard({
 
   return (
     <div
-      className={`group transition-all duration-700 ${getRevealClass()}`}
+      className={`group flex items-start gap-3 border-b border-foreground/10 py-3 transition-all duration-700 sm:block sm:border-0 sm:py-0 md:gap-0 ${getRevealClass()}`}
       style={{
         transitionDelay: `${index * 150}ms`,
       }}
     >
-      <div className="mb-3 flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/10 text-foreground/70 transition-all duration-300 group-hover:bg-foreground/20 group-hover:text-foreground">
-          <Icon name={service.icon} size={18} />
+      <div className="mb-0 flex shrink-0 items-center gap-3 sm:mb-3">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/10 text-foreground/70 transition-all duration-300 group-hover:bg-foreground/20 group-hover:text-foreground sm:h-9 sm:w-9">
+          <Icon name={service.icon} size={16} />
         </div>
-        <span className="font-mono text-xs text-foreground/60">0{index + 1}</span>
+        <span className="font-mono text-xs text-foreground/60 sm:block">0{index + 1}</span>
       </div>
-      <h3 className="mb-1.5 font-sans text-lg font-light text-foreground md:text-xl lg:text-2xl">{service.title}</h3>
-      <p className="text-xs leading-relaxed text-foreground/80 md:text-sm">{service.description}</p>
+      <div>
+        <h3 className="mb-0.5 font-sans text-base font-light text-foreground sm:mb-1.5 md:text-xl lg:text-2xl">{service.title}</h3>
+        <p className="text-xs leading-relaxed text-foreground/80 md:text-sm">{service.description}</p>
+      </div>
     </div>
   )
 }

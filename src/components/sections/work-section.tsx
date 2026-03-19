@@ -41,43 +41,47 @@ export function WorkSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
+  const isTouchDevice = typeof window !== "undefined" && window.matchMedia("(hover: none)").matches
+
   const handleMouseMove = (e: React.MouseEvent) => {
-    setMousePos({ x: e.clientX, y: e.clientY })
+    if (!isTouchDevice) {
+      setMousePos({ x: e.clientX, y: e.clientY })
+    }
   }
 
   return (
     <section
       ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start flex-col justify-center px-6 pt-20 md:px-12 md:pt-0 lg:px-16"
+      className="flex h-screen w-screen shrink-0 snap-start flex-col justify-center px-4 pt-20 md:px-12 md:pt-0 lg:px-16"
       onMouseMove={handleMouseMove}
     >
       <div className="mx-auto w-full max-w-7xl">
         <div
-          className={`mb-12 transition-all duration-700 md:mb-16 ${
+          className={`mb-6 transition-all duration-700 md:mb-16 ${
             isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
           }`}
         >
-          <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
+          <h2 className="mb-1 font-sans text-3xl font-light tracking-tight text-foreground md:mb-2 md:text-6xl lg:text-7xl">
             Проекты
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Реализованные объекты</p>
+          <p className="font-mono text-xs text-foreground/60 md:text-base">/ Реализованные объекты</p>
         </div>
 
-        <div className="space-y-6 md:space-y-8">
+        <div className="space-y-0 md:space-y-4">
           {projects.map((project, i) => (
             <ProjectCard
               key={i}
               project={project}
               index={i}
               isVisible={isVisible}
-              onHover={setHoveredIndex}
+              onHover={isTouchDevice ? () => {} : setHoveredIndex}
               isHovered={hoveredIndex === i}
             />
           ))}
         </div>
       </div>
 
-      {hoveredIndex !== null && (
+      {!isTouchDevice && hoveredIndex !== null && (
         <div
           className="pointer-events-none fixed z-50 h-40 w-60 overflow-hidden rounded-xl shadow-2xl transition-opacity duration-200"
           style={{
@@ -118,27 +122,25 @@ function ProjectCard({
 
   return (
     <div
-      className={`group flex items-center justify-between border-b border-foreground/10 py-6 transition-all duration-700 hover:border-foreground/20 md:py-8 ${getRevealClass()} cursor-pointer`}
+      className={`group flex w-full items-center justify-between border-b border-foreground/10 py-4 transition-all duration-700 hover:border-foreground/20 md:py-8 ${getRevealClass()} cursor-pointer`}
       style={{
         transitionDelay: `${index * 150}ms`,
-        marginLeft: index % 2 === 0 ? "0" : "auto",
-        maxWidth: index % 2 === 0 ? "85%" : "90%",
       }}
       onMouseEnter={() => onHover(index)}
       onMouseLeave={() => onHover(null)}
     >
-      <div className="flex items-baseline gap-4 md:gap-8">
-        <span className="font-mono text-sm text-foreground/30 transition-colors group-hover:text-foreground/50 md:text-base">
+      <div className="flex items-baseline gap-3 md:gap-8">
+        <span className="shrink-0 font-mono text-xs text-foreground/30 transition-colors group-hover:text-foreground/50 md:text-base">
           {project.number}
         </span>
-        <div>
-          <h3 className="mb-1 font-sans text-2xl font-light text-foreground transition-transform duration-300 group-hover:translate-x-2 md:text-3xl lg:text-4xl">
+        <div className="min-w-0">
+          <h3 className="mb-0.5 truncate font-sans text-lg font-light text-foreground transition-transform duration-300 group-hover:translate-x-1 md:mb-1 md:text-3xl md:group-hover:translate-x-2 lg:text-4xl">
             {project.title}
           </h3>
-          <p className="font-mono text-xs text-foreground/50 md:text-sm">{project.category}</p>
+          <p className="truncate font-mono text-xs text-foreground/50">{project.category}</p>
         </div>
       </div>
-      <span className="font-mono text-xs text-foreground/30 md:text-sm">{project.year}</span>
+      <span className="ml-3 shrink-0 font-mono text-xs text-foreground/30 md:text-sm">{project.year}</span>
     </div>
   )
 }
