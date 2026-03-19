@@ -9,15 +9,24 @@ import { MagneticButton } from "@/components/magnetic-button"
 import { useRef, useEffect, useState } from "react"
 import Icon from "@/components/ui/icon"
 
+const isMobile = () => typeof window !== "undefined" && window.innerWidth < 768
+
 export default function Index() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [currentSection, setCurrentSection] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobile, setMobile] = useState(isMobile())
   const touchStartY = useRef(0)
   const touchStartX = useRef(0)
   const shaderContainerRef = useRef<HTMLDivElement>(null)
   const scrollThrottleRef = useRef<number>()
+
+  useEffect(() => {
+    const onResize = () => setMobile(isMobile())
+    window.addEventListener("resize", onResize)
+    return () => window.removeEventListener("resize", onResize)
+  }, [])
 
   useEffect(() => {
     const checkShaderReady = () => {
@@ -34,14 +43,10 @@ export default function Index() {
     if (checkShaderReady()) return
 
     const intervalId = setInterval(() => {
-      if (checkShaderReady()) {
-        clearInterval(intervalId)
-      }
+      if (checkShaderReady()) clearInterval(intervalId)
     }, 100)
 
-    const fallbackTimer = setTimeout(() => {
-      setIsLoaded(true)
-    }, 1500)
+    const fallbackTimer = setTimeout(() => setIsLoaded(true), 1500)
 
     return () => {
       clearInterval(intervalId)
@@ -50,128 +55,120 @@ export default function Index() {
   }, [])
 
   const scrollToSection = (index: number) => {
-    if (scrollContainerRef.current) {
+    if (!scrollContainerRef.current) return
+    if (mobile) {
+      const sections = scrollContainerRef.current.querySelectorAll("section")
+      sections[index]?.scrollIntoView({ behavior: "smooth" })
+    } else {
       const sectionWidth = scrollContainerRef.current.offsetWidth
-      scrollContainerRef.current.scrollTo({
-        left: sectionWidth * index,
-        behavior: "smooth",
-      })
-      setCurrentSection(index)
+      scrollContainerRef.current.scrollTo({ left: sectionWidth * index, behavior: "smooth" })
     }
+    setCurrentSection(index)
     setMobileMenuOpen(false)
   }
 
+  // Touch swipe — only for horizontal desktop mode
   useEffect(() => {
+    if (mobile) return
+
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY.current = e.touches[0].clientY
       touchStartX.current = e.touches[0].clientX
     }
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (Math.abs(e.touches[0].clientY - touchStartY.current) > 10) {
-        e.preventDefault()
-      }
-    }
-
     const handleTouchEnd = (e: TouchEvent) => {
-      const touchEndY = e.changedTouches[0].clientY
-      const touchEndX = e.changedTouches[0].clientX
-      const deltaY = touchStartY.current - touchEndY
-      const deltaX = touchStartX.current - touchEndX
-
+      const deltaY = touchStartY.current - e.changedTouches[0].clientY
+      const deltaX = touchStartX.current - e.changedTouches[0].clientX
       if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 50) {
-        if (deltaY > 0 && currentSection < 4) {
-          scrollToSection(currentSection + 1)
-        } else if (deltaY < 0 && currentSection > 0) {
-          scrollToSection(currentSection - 1)
-        }
+        if (deltaY > 0 && currentSection < 4) scrollToSection(currentSection + 1)
+        else if (deltaY < 0 && currentSection > 0) scrollToSection(currentSection - 1)
       }
     }
 
     const container = scrollContainerRef.current
     if (container) {
       container.addEventListener("touchstart", handleTouchStart, { passive: true })
-      container.addEventListener("touchmove", handleTouchMove, { passive: false })
       container.addEventListener("touchend", handleTouchEnd, { passive: true })
     }
-
     return () => {
       if (container) {
         container.removeEventListener("touchstart", handleTouchStart)
-        container.removeEventListener("touchmove", handleTouchMove)
         container.removeEventListener("touchend", handleTouchEnd)
       }
     }
-  }, [currentSection])
+  }, [currentSection, mobile])
 
+  // Wheel scroll — desktop horizontal only
   useEffect(() => {
+    if (mobile) return
+
     const handleWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         e.preventDefault()
-
         if (!scrollContainerRef.current) return
-
-        scrollContainerRef.current.scrollBy({
-          left: e.deltaY,
-          behavior: "instant",
-        })
-
+        scrollContainerRef.current.scrollBy({ left: e.deltaY, behavior: "instant" })
         const sectionWidth = scrollContainerRef.current.offsetWidth
         const newSection = Math.round(scrollContainerRef.current.scrollLeft / sectionWidth)
-        if (newSection !== currentSection) {
-          setCurrentSection(newSection)
-        }
+        if (newSection !== currentSection) setCurrentSection(newSection)
       }
     }
 
     const container = scrollContainerRef.current
-    if (container) {
-      container.addEventListener("wheel", handleWheel, { passive: false })
-    }
-
+    if (container) container.addEventListener("wheel", handleWheel, { passive: false })
     return () => {
-      if (container) {
-        container.removeEventListener("wheel", handleWheel)
-      }
+      if (container) container.removeEventListener("wheel", handleWheel)
     }
-  }, [currentSection])
+  }, [currentSection, mobile])
 
+  // Scroll tracker — desktop
   useEffect(() => {
+    if (mobile) return
+
     const handleScroll = () => {
       if (scrollThrottleRef.current) return
-
       scrollThrottleRef.current = requestAnimationFrame(() => {
-        if (!scrollContainerRef.current) {
-          scrollThrottleRef.current = undefined
-          return
-        }
-
+        if (!scrollContainerRef.current) { scrollThrottleRef.current = undefined; return }
         const sectionWidth = scrollContainerRef.current.offsetWidth
-        const scrollLeft = scrollContainerRef.current.scrollLeft
-        const newSection = Math.round(scrollLeft / sectionWidth)
-
-        if (newSection !== currentSection && newSection >= 0 && newSection <= 4) {
-          setCurrentSection(newSection)
-        }
-
+        const newSection = Math.round(scrollContainerRef.current.scrollLeft / sectionWidth)
+        if (newSection !== currentSection && newSection >= 0 && newSection <= 4) setCurrentSection(newSection)
         scrollThrottleRef.current = undefined
       })
     }
 
     const container = scrollContainerRef.current
-    if (container) {
-      container.addEventListener("scroll", handleScroll, { passive: true })
+    if (container) container.addEventListener("scroll", handleScroll, { passive: true })
+    return () => {
+      if (container) container.removeEventListener("scroll", handleScroll)
+      if (scrollThrottleRef.current) cancelAnimationFrame(scrollThrottleRef.current)
+    }
+  }, [currentSection, mobile])
+
+  // Scroll tracker — mobile vertical
+  useEffect(() => {
+    if (!mobile) return
+
+    const handleScroll = () => {
+      if (scrollThrottleRef.current) return
+      scrollThrottleRef.current = requestAnimationFrame(() => {
+        if (!scrollContainerRef.current) { scrollThrottleRef.current = undefined; return }
+        const sections = scrollContainerRef.current.querySelectorAll("section")
+        let closest = 0
+        let minDist = Infinity
+        sections.forEach((sec, i) => {
+          const dist = Math.abs(sec.getBoundingClientRect().top)
+          if (dist < minDist) { minDist = dist; closest = i }
+        })
+        if (closest !== currentSection) setCurrentSection(closest)
+        scrollThrottleRef.current = undefined
+      })
     }
 
+    const container = scrollContainerRef.current
+    if (container) container.addEventListener("scroll", handleScroll, { passive: true })
     return () => {
-      if (container) {
-        container.removeEventListener("scroll", handleScroll)
-      }
-      if (scrollThrottleRef.current) {
-        cancelAnimationFrame(scrollThrottleRef.current)
-      }
+      if (container) container.removeEventListener("scroll", handleScroll)
+      if (scrollThrottleRef.current) cancelAnimationFrame(scrollThrottleRef.current)
     }
-  }, [currentSection])
+  }, [currentSection, mobile])
 
   const navItems = ["Главная", "Работы", "Услуги", "О нас", "Контакты"]
 
@@ -250,98 +247,138 @@ export default function Index() {
           className="flex items-center gap-2 transition-transform hover:scale-105"
         >
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25 md:h-10 md:w-10">
-            <span className="font-sans text-lg font-bold text-foreground md:text-xl">Х</span>
+            <span className="font-sans text-lg font-bold text-foreground">С</span>
           </div>
-          <span className="font-sans text-base font-semibold tracking-tight text-foreground md:text-xl">ХоумКомфорт</span>
+          <span className="hidden font-sans text-sm font-light text-foreground/90 sm:block">СтражДом</span>
         </button>
 
-        <div className="hidden items-center gap-8 md:flex">
+        {/* Desktop nav */}
+        <div className="hidden items-center gap-6 md:flex lg:gap-8">
           {navItems.map((item, index) => (
             <button
               key={item}
               onClick={() => scrollToSection(index)}
-              className={`group relative font-sans text-sm font-medium transition-colors ${
-                currentSection === index ? "text-foreground" : "text-foreground/80 hover:text-foreground"
+              className={`font-mono text-xs transition-all duration-300 ${
+                currentSection === index
+                  ? "text-foreground"
+                  : "text-foreground/50 hover:text-foreground/80"
               }`}
             >
               {item}
-              <span
-                className={`absolute -bottom-1 left-0 h-px bg-foreground transition-all duration-300 ${
-                  currentSection === index ? "w-full" : "w-0 group-hover:w-full"
-                }`}
-              />
             </button>
           ))}
         </div>
 
-        <div className="hidden md:block">
-          <MagneticButton variant="secondary" onClick={() => scrollToSection(4)}>
-            Вызвать мастера
-          </MagneticButton>
-        </div>
+        <div className="flex items-center gap-3">
+          <div className="hidden md:block">
+            <MagneticButton size="default" variant="secondary" onClick={() => scrollToSection(4)}>
+              Вызвать мастера
+            </MagneticButton>
+          </div>
 
-        <button
-          className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Меню"
-        >
-          <Icon name={mobileMenuOpen ? "X" : "Menu"} size={18} />
-        </button>
+          {/* Mobile burger */}
+          <button
+            className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-lg bg-foreground/10 backdrop-blur-md md:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <span className={`h-px w-4 bg-foreground transition-all ${mobileMenuOpen ? "translate-y-[5px] rotate-45" : ""}`} />
+            <span className={`h-px w-4 bg-foreground transition-all ${mobileMenuOpen ? "opacity-0" : ""}`} />
+            <span className={`h-px w-4 bg-foreground transition-all ${mobileMenuOpen ? "-translate-y-[5px] -rotate-45" : ""}`} />
+          </button>
+        </div>
       </nav>
 
-      <div
-        ref={scrollContainerRef}
-        data-scroll-container
-        className={`relative z-10 flex h-screen overflow-x-auto overflow-y-hidden transition-opacity duration-700 ${
-          isLoaded ? "opacity-100" : "opacity-0"
-        }`}
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-      >
-        {/* Hero Section */}
-        <section className="flex min-h-screen w-screen shrink-0 flex-col justify-end px-4 pb-12 pt-20 md:px-12 md:pb-24 md:pt-24">
-          <div className="max-w-3xl">
-            <div className="mb-4 inline-block animate-in fade-in slide-in-from-bottom-4 rounded-full border border-foreground/20 bg-foreground/15 px-3 py-1.5 backdrop-blur-md duration-700 md:px-4">
-              <p className="font-mono text-xs text-foreground/90">Профессиональная установка под ключ</p>
-            </div>
-            <h1 className="mb-4 animate-in fade-in slide-in-from-bottom-8 font-sans text-4xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-5xl md:mb-6 md:text-7xl lg:text-8xl">
-              <span className="text-balance">
+      {/* MOBILE: vertical scroll */}
+      {mobile ? (
+        <div
+          ref={scrollContainerRef}
+          className={`relative z-10 h-screen overflow-y-auto overflow-x-hidden transition-opacity duration-700 ${
+            isLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {/* Hero */}
+          <section className="flex min-h-screen w-full flex-col justify-end px-4 pb-16 pt-24">
+            <div className="max-w-3xl">
+              <div className="mb-3 inline-block rounded-full border border-foreground/20 bg-foreground/15 px-3 py-1.5 backdrop-blur-md">
+                <p className="font-mono text-xs text-foreground/90">Профессиональная установка под ключ</p>
+              </div>
+              <h1 className="mb-4 font-sans text-4xl font-light leading-[1.1] tracking-tight text-foreground">
                 Комфорт в ваш дом
-              </span>
-            </h1>
-            <p className="mb-6 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-foreground/90 duration-1000 delay-200 md:mb-8 md:text-xl">
-              <span className="text-pretty">
+              </h1>
+              <p className="mb-6 text-base leading-relaxed text-foreground/90">
                 Видеонаблюдение, умный дом и безопасность для загородных домов и квартир. Установка «под ключ» — без лишних хлопот.
-              </span>
-            </p>
-            <div className="flex animate-in fade-in slide-in-from-bottom-4 flex-col gap-3 duration-1000 delay-300 sm:flex-row sm:items-center sm:gap-4">
-              <MagneticButton
-                size="lg"
-                variant="primary"
-                onClick={() => scrollToSection(4)}
-              >
-                Получить консультацию
-              </MagneticButton>
-              <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection(2)}>
-                Наши услуги
-              </MagneticButton>
-            </div>
-          </div>
-
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-in fade-in duration-1000 delay-500 md:bottom-8">
-            <div className="flex items-center gap-2">
-              <p className="font-mono text-xs text-foreground/80">Листайте вправо</p>
-              <div className="flex h-6 w-12 items-center justify-center rounded-full border border-foreground/20 bg-foreground/15 backdrop-blur-md">
-                <div className="h-2 w-2 animate-pulse rounded-full bg-foreground/80" />
+              </p>
+              <div className="flex flex-col gap-3">
+                <MagneticButton size="lg" variant="primary" onClick={() => scrollToSection(4)}>
+                  Получить консультацию
+                </MagneticButton>
+                <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection(2)}>
+                  Наши услуги
+                </MagneticButton>
               </div>
             </div>
-          </div>
-        </section>
+            <div className="mt-8 flex items-center gap-2">
+              <p className="font-mono text-xs text-foreground/80">Листайте вниз</p>
+              <Icon name="ChevronDown" size={14} className="text-foreground/80 animate-bounce" />
+            </div>
+          </section>
 
-        <WorkSection />
-        <ServicesSection />
-        <AboutSection scrollToSection={scrollToSection} />
-        <ContactSection />
-      </div>
+          <WorkSection />
+          <ServicesSection />
+          <AboutSection scrollToSection={scrollToSection} />
+          <ContactSection />
+        </div>
+      ) : (
+        /* DESKTOP: horizontal scroll */
+        <div
+          ref={scrollContainerRef}
+          data-scroll-container
+          className={`relative z-10 flex h-screen overflow-x-auto overflow-y-hidden transition-opacity duration-700 ${
+            isLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {/* Hero Section */}
+          <section className="flex min-h-screen w-screen shrink-0 flex-col justify-end px-4 pb-12 pt-20 md:px-12 md:pb-24 md:pt-24">
+            <div className="max-w-3xl">
+              <div className="mb-4 inline-block animate-in fade-in slide-in-from-bottom-4 rounded-full border border-foreground/20 bg-foreground/15 px-3 py-1.5 backdrop-blur-md duration-700 md:px-4">
+                <p className="font-mono text-xs text-foreground/90">Профессиональная установка под ключ</p>
+              </div>
+              <h1 className="mb-4 animate-in fade-in slide-in-from-bottom-8 font-sans text-4xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-5xl md:mb-6 md:text-7xl lg:text-8xl">
+                <span className="text-balance">Комфорт в ваш дом</span>
+              </h1>
+              <p className="mb-6 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-foreground/90 duration-1000 delay-200 md:mb-8 md:text-xl">
+                <span className="text-pretty">
+                  Видеонаблюдение, умный дом и безопасность для загородных домов и квартир. Установка «под ключ» — без лишних хлопот.
+                </span>
+              </p>
+              <div className="flex animate-in fade-in slide-in-from-bottom-4 flex-col gap-3 duration-1000 delay-300 sm:flex-row sm:items-center sm:gap-4">
+                <MagneticButton size="lg" variant="primary" onClick={() => scrollToSection(4)}>
+                  Получить консультацию
+                </MagneticButton>
+                <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection(2)}>
+                  Наши услуги
+                </MagneticButton>
+              </div>
+            </div>
+
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-in fade-in duration-1000 delay-500 md:bottom-8">
+              <div className="flex items-center gap-2">
+                <p className="font-mono text-xs text-foreground/80">Листайте вправо</p>
+                <div className="flex h-6 w-12 items-center justify-center rounded-full border border-foreground/20 bg-foreground/15 backdrop-blur-md">
+                  <div className="h-2 w-2 animate-pulse rounded-full bg-foreground/80" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <WorkSection />
+          <ServicesSection />
+          <AboutSection scrollToSection={scrollToSection} />
+          <ContactSection />
+        </div>
+      )}
 
       {/* Section dots indicator */}
       <div className="fixed bottom-4 right-4 z-40 flex gap-1.5 md:hidden">
@@ -357,9 +394,7 @@ export default function Index() {
       </div>
 
       <style>{`
-        div::-webkit-scrollbar {
-          display: none;
-        }
+        div::-webkit-scrollbar { display: none; }
       `}</style>
     </main>
   )
