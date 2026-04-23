@@ -305,7 +305,22 @@ export default function Index() {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {/* Hero */}
-          <section className="flex min-h-screen w-full flex-col justify-end px-4 pb-16 pt-24">
+          <section className="flex min-h-screen w-full flex-col justify-between px-4 pb-10 pt-24">
+            {/* Верхний блок — статистика */}
+            <div className="grid grid-cols-3 gap-2 pt-2">
+              {[
+                { value: "500+", label: "объектов" },
+                { value: "12", label: "лет опыта" },
+                { value: "100%", label: "гарантия" },
+              ].map((stat) => (
+                <div key={stat.label} className="rounded-xl border border-foreground/15 bg-foreground/10 p-3 text-center backdrop-blur-md">
+                  <div className="font-sans text-xl font-light text-foreground">{stat.value}</div>
+                  <div className="font-mono text-[10px] text-foreground/60">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Средний блок — заголовок */}
             <div className="max-w-3xl">
               <div className="mb-3 inline-block rounded-full border border-foreground/20 bg-foreground/15 px-3 py-1.5 backdrop-blur-md">
                 <p className="font-mono text-xs text-foreground/90">Профессиональная установка под ключ</p>
@@ -325,7 +340,8 @@ export default function Index() {
                 </MagneticButton>
               </div>
             </div>
-            <div className="mt-8 flex items-center gap-2">
+
+            <div className="flex items-center gap-2">
               <p className="font-mono text-xs text-foreground/80">Листайте вниз</p>
               <Icon name="ChevronDown" size={14} className="text-foreground/80 animate-bounce" />
             </div>
