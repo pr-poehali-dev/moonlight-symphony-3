@@ -174,13 +174,15 @@ export function ContactSection() {
                 }`}
                 style={{ transitionDelay: "650ms" }}
               >
-                <MagneticButton
-                  variant="primary"
-                  size="lg"
-                  className="w-full disabled:opacity-50"
-                >
-                  {isSubmitting ? "Отправка..." : "Заказать консультацию"}
-                </MagneticButton>
+                <a href="tel:+79533555693" className="block w-full">
+                  <MagneticButton
+                    variant="primary"
+                    size="lg"
+                    className="w-full"
+                  >
+                    Заказать консультацию
+                  </MagneticButton>
+                </a>
                 {submitSuccess && (
                   <p className="mt-3 text-center font-mono text-xs text-foreground/80 md:text-sm">Заявка принята! Свяжемся с вами в течение часа.</p>
                 )}

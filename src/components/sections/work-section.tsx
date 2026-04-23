@@ -34,6 +34,22 @@ const projects = [
     direction: "right",
     image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/1df4a06f-ab02-4e3d-9056-0ad458521557.jpg",
   },
+  {
+    number: "05",
+    title: "КП «Репинская усадьба»",
+    category: "Видеонаблюдение + Домофония + Wi-Fi",
+    year: "2025",
+    direction: "left",
+    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/92d6ff8c-df05-48ee-9513-002fb516c398.jpg",
+  },
+  {
+    number: "06",
+    title: "КП «Репино парк»",
+    category: "Охрана периметра + Wi-Fi + Видеонаблюдение + Домофония",
+    year: "2025",
+    direction: "right",
+    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/3e371ba0-d5b1-4ff1-9325-f27941facb59.jpg",
+  },
 ]
 
 export function WorkSection() {

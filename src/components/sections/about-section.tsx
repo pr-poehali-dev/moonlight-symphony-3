@@ -81,9 +81,11 @@ export function AboutSection({ scrollToSection }: { scrollToSection?: (index: nu
           }`}
           style={{ transitionDelay: "750ms" }}
         >
-          <MagneticButton size="lg" variant="primary" onClick={() => scrollToSection?.(4)}>
-            Получить консультацию
-          </MagneticButton>
+          <a href="tel:+79533555693">
+            <MagneticButton size="lg" variant="primary">
+              Получить консультацию
+            </MagneticButton>
+          </a>
           <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection?.(1)}>
             Наши объекты
           </MagneticButton>

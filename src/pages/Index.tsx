@@ -320,6 +320,23 @@ export default function Index() {
               ))}
             </div>
 
+            {/* Услуги иконками */}
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { icon: "Camera", label: "Видеонаблюдение" },
+                { icon: "Zap", label: "Электромонтаж" },
+                { icon: "DoorOpen", label: "Домофония" },
+                { icon: "Wifi", label: "Wi-Fi" },
+                { icon: "Home", label: "Умный дом" },
+                { icon: "Wrench", label: "Обслуживание" },
+              ].map((s) => (
+                <div key={s.label} className="flex flex-col items-center gap-1.5 rounded-xl border border-foreground/15 bg-foreground/10 p-3 backdrop-blur-md">
+                  <Icon name={s.icon} size={18} className="text-foreground/80" />
+                  <span className="text-center font-mono text-[10px] leading-tight text-foreground/70">{s.label}</span>
+                </div>
+              ))}
+            </div>
+
             {/* Средний блок — заголовок */}
             <div className="max-w-3xl">
               <div className="mb-3 inline-block rounded-full border border-foreground/20 bg-foreground/15 px-3 py-1.5 backdrop-blur-md">
@@ -332,9 +349,11 @@ export default function Index() {
                 Видеонаблюдение, умный дом и безопасность для загородных домов и квартир. Установка «под ключ» — без лишних хлопот.
               </p>
               <div className="flex flex-col gap-3">
-                <MagneticButton size="lg" variant="primary" onClick={() => scrollToSection(4)}>
-                  Получить консультацию
-                </MagneticButton>
+                <a href="tel:+79533555693">
+                  <MagneticButton size="lg" variant="primary" className="w-full">
+                    Получить консультацию
+                  </MagneticButton>
+                </a>
                 <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection(2)}>
                   Наши услуги
                 </MagneticButton>
@@ -377,9 +396,11 @@ export default function Index() {
                 </span>
               </p>
               <div className="flex animate-in fade-in slide-in-from-bottom-4 flex-col gap-3 duration-1000 delay-300 sm:flex-row sm:items-center sm:gap-4">
-                <MagneticButton size="lg" variant="primary" onClick={() => scrollToSection(4)}>
-                  Получить консультацию
-                </MagneticButton>
+                <a href="tel:+79533555693">
+                  <MagneticButton size="lg" variant="primary">
+                    Получить консультацию
+                  </MagneticButton>
+                </a>
                 <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection(2)}>
                   Наши услуги
                 </MagneticButton>
