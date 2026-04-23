@@ -15,39 +15,44 @@ def send_telegram(bot_token, chat_id, text):
     urllib.request.urlopen(req, timeout=10)
 
 
-def send_email_via_api(to_email, name, email, message):
-    """Отправить email через poehali SMTP API."""
-    import smtplib
-    from email.mime.text import MIMEText
-    from email.mime.multipart import MIMEMultipart
-
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = "Новая заявка с сайта КомфортГард от " + name
-    msg["From"] = "noreply@poehali.dev"
-    msg["To"] = to_email
+def send_email_resend(to_email, name, email, message):
+    """Отправить email через Resend HTTP API."""
+    api_key = os.environ.get("RESEND_API_KEY", "")
+    if not api_key:
+        return
 
     html = (
         "<html><body style='font-family:Arial,sans-serif;color:#222;max-width:600px;margin:0 auto;'>"
-        "<h2 style='color:#1a3a6b;'>Новая заявка — КомфортГард</h2>"
+        "<h2 style='color:#1a3a6b;'>Новая заявка — E-Home Systems</h2>"
         "<table style='width:100%;border-collapse:collapse;'>"
         "<tr><td style='padding:8px;font-weight:bold;width:120px;'>Имя:</td><td style='padding:8px;'>" + name + "</td></tr>"
         "<tr style='background:#f5f5f5;'><td style='padding:8px;font-weight:bold;'>Email:</td><td style='padding:8px;'>" + email + "</td></tr>"
         "<tr><td style='padding:8px;font-weight:bold;'>Сообщение:</td><td style='padding:8px;'>" + message + "</td></tr>"
         "</table>"
-        "<p style='margin-top:24px;color:#666;font-size:13px;'>Заявка получена с сайта КомфортГард — ssb.spb.ru</p>"
+        "<p style='margin-top:24px;color:#666;font-size:13px;'>Заявка получена с сайта E-Home Systems — e-homesystems.ru</p>"
         "</body></html>"
     )
-    msg.attach(MIMEText(html, "html"))
 
-    server = smtplib.SMTP("smtp.poehali.dev", 587, timeout=10)
-    server.starttls()
-    server.login("noreply@poehali.dev", "poehali")
-    server.sendmail("noreply@poehali.dev", to_email, msg.as_string())
-    server.quit()
+    payload = json.dumps({
+        "from": "E-Home Systems <onboarding@resend.dev>",
+        "to": [to_email],
+        "subject": "Новая заявка с сайта E-Home Systems от " + name,
+        "html": html
+    }).encode("utf-8")
+
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=payload,
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + api_key
+        }
+    )
+    urllib.request.urlopen(req, timeout=15)
 
 
 def handler(event: dict, context) -> dict:
-    """Принимает заявку с формы сайта КомфортГард и отправляет уведомления в Telegram и на email."""
+    """Принимает заявку с формы сайта E-Home Systems и отправляет уведомления в Telegram и на email."""
     cors_headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -72,7 +77,7 @@ def handler(event: dict, context) -> dict:
     chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
     if bot_token and chat_id:
         tg_text = (
-            "<b>Новая заявка — КомфортГард</b>\n\n"
+            "<b>Новая заявка — E-Home Systems</b>\n\n"
             "<b>Имя:</b> " + name + "\n"
             "<b>Email:</b> " + email + "\n"
             "<b>Сообщение:</b>\n" + message
@@ -80,7 +85,7 @@ def handler(event: dict, context) -> dict:
         send_telegram(bot_token, chat_id, tg_text)
 
     notify_email = os.environ.get("NOTIFY_EMAIL", "info@ssb.spb.ru")
-    send_email_via_api(notify_email, name, email, message)
+    send_email_resend(notify_email, name, email, message)
 
     return {
         "statusCode": 200,

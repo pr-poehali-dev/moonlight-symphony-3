@@ -246,10 +246,10 @@ export default function Index() {
           onClick={() => scrollToSection(0)}
           className="flex items-center gap-2 transition-transform hover:scale-105"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25 md:h-10 md:w-10">
-            <span className="font-sans text-lg font-bold text-foreground">К</span>
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25 md:h-10 md:w-10 overflow-hidden">
+            <img src="/favicon.svg" alt="E-Home Systems" className="h-6 w-6 md:h-7 md:w-7 object-contain" />
           </div>
-          <span className="hidden font-sans text-sm font-light text-foreground/90 sm:block">КомфортГард</span>
+          <span className="font-sans text-sm font-light text-foreground/90 sm:block">E-Home Systems</span>
         </button>
 
         {/* Desktop nav */}

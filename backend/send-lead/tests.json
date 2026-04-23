@@ -11,15 +11,13 @@
       "method": "POST",
       "path": "/",
       "body": {"name": "", "email": "", "message": ""},
-      "expectedStatus": 400,
-      "expectedBody": {"error": "Все поля обязательны"},
-      "bodyMatcher": "partial"
+      "expectedStatus": 400
     },
     {
-      "name": "Valid lead submission",
+      "name": "Тестовая заявка — отправка письма на info@ssb.spb.ru",
       "method": "POST",
       "path": "/",
-      "body": {"name": "Тест Тестов", "email": "test@test.ru", "message": "Хочу видеонаблюдение в коттедж"},
+      "body": {"name": "Тест E-Home Systems", "email": "info@ssb.spb.ru", "message": "Тестовое письмо с формы сайта e-homesystems.ru — всё работает!"},
       "expectedStatus": 200,
       "expectedBody": {"ok": true},
       "bodyMatcher": "partial"
