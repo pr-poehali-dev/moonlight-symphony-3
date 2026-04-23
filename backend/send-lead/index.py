@@ -1,5 +1,6 @@
 import json
 import os
+import urllib.error
 import urllib.request
 
 
@@ -48,7 +49,16 @@ def send_email_resend(to_email, name, email, message):
             "Authorization": "Bearer " + api_key
         }
     )
-    urllib.request.urlopen(req, timeout=15)
+    try:
+        resp = urllib.request.urlopen(req, timeout=15)
+        print("[email] sent ok:", resp.status)
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8", errors="replace")
+        print("[email] HTTP error:", e.code, body)
+        raise
+    except Exception as e:
+        print("[email] error:", str(e))
+        raise
 
 
 def handler(event: dict, context) -> dict:

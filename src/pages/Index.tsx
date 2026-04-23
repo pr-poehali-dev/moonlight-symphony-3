@@ -247,9 +247,21 @@ export default function Index() {
           className="flex items-center gap-2 transition-transform hover:scale-105"
         >
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25 md:h-10 md:w-10 overflow-hidden">
-            <img src="/favicon.svg" alt="E-Home Systems" className="h-6 w-6 md:h-7 md:w-7 object-contain" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-5 w-5 text-foreground animate-spin-slow"
+            >
+              <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+              <path d="M9 21V12h6v9"/>
+            </svg>
           </div>
-          <span className="font-sans text-sm font-light text-foreground/90 sm:block">E-Home Systems</span>
+          <span className="font-sans text-sm font-semibold tracking-wide text-foreground sm:block">E-Home Systems</span>
         </button>
 
         {/* Desktop nav */}
