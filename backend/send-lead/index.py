@@ -34,7 +34,7 @@ def send_email_via_api(to_email, name, email, message):
         "<tr style='background:#f5f5f5;'><td style='padding:8px;font-weight:bold;'>Email:</td><td style='padding:8px;'>" + email + "</td></tr>"
         "<tr><td style='padding:8px;font-weight:bold;'>Сообщение:</td><td style='padding:8px;'>" + message + "</td></tr>"
         "</table>"
-        "<p style='margin-top:24px;color:#666;font-size:13px;'>Заявка получена с сайта strajdom.ru</p>"
+        "<p style='margin-top:24px;color:#666;font-size:13px;'>Заявка получена с сайта КомфортГард — ssb.spb.ru</p>"
         "</body></html>"
     )
     msg.attach(MIMEText(html, "html"))
@@ -79,9 +79,8 @@ def handler(event: dict, context) -> dict:
         )
         send_telegram(bot_token, chat_id, tg_text)
 
-    notify_email = os.environ.get("NOTIFY_EMAIL", "")
-    if notify_email:
-        send_email_via_api(notify_email, name, email, message)
+    notify_email = os.environ.get("NOTIFY_EMAIL", "info@ssb.spb.ru")
+    send_email_via_api(notify_email, name, email, message)
 
     return {
         "statusCode": 200,
