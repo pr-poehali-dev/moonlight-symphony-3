@@ -32,17 +32,17 @@ export function ContactSection() {
   return (
     <section
       ref={ref}
-      className="flex min-h-screen w-full flex-col justify-center px-4 py-20 md:h-screen md:w-screen md:shrink-0 md:snap-start md:px-12 md:py-0 lg:px-16"
+      className="flex min-h-screen w-full flex-col justify-center px-4 py-16 md:h-screen md:w-screen md:shrink-0 md:snap-start md:px-12 md:py-0 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
-        <div className="grid gap-6 md:grid-cols-[1.2fr_1fr] md:gap-16 lg:gap-24">
+        <div className="grid gap-8 md:grid-cols-[1.2fr_1fr] md:gap-16 lg:gap-24">
           <div className="flex flex-col justify-center">
             <div
-              className={`mb-4 transition-all duration-700 md:mb-12 ${
+              className={`mb-5 transition-all duration-700 md:mb-12 ${
                 isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
               }`}
             >
-              <h2 className="mb-1 font-sans text-2xl font-light leading-[1.05] tracking-tight text-foreground sm:text-3xl md:mb-3 md:text-7xl lg:text-8xl">
+              <h2 className="mb-1 font-sans text-3xl font-light leading-[1.05] tracking-tight text-foreground md:mb-3 md:text-7xl lg:text-8xl">
                 Обсудим
                 <br />
                 ваш объект
@@ -50,9 +50,9 @@ export function ContactSection() {
               <p className="font-mono text-xs text-foreground/60 md:text-base">/ Бесплатная консультация</p>
             </div>
 
-            <div className="flex flex-wrap gap-x-6 gap-y-3 md:flex-col md:gap-y-8">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:flex md:flex-col md:gap-y-8">
               <a
-                href="tel:+79001234567"
+                href="tel:+79533555693"
                 className={`group transition-all duration-700 ${
                   isVisible ? "translate-x-0 opacity-100" : "-translate-x-16 opacity-0"
                 }`}
@@ -62,13 +62,13 @@ export function ContactSection() {
                   <Phone className="h-3 w-3 text-foreground/60" />
                   <span className="font-mono text-xs text-foreground/60">Телефон</span>
                 </div>
-                <p className="text-sm text-foreground transition-colors group-hover:text-foreground/70 md:text-2xl">
-                  +7 (900) 123-45-67
+                <p className="text-sm font-light text-foreground transition-colors group-hover:text-foreground/70 md:text-2xl">
+                  +7 953 355-56-93
                 </p>
               </a>
 
               <a
-                href="mailto:info@strajdom.ru"
+                href="mailto:info@komfortgard.ru"
                 className={`group transition-all duration-700 ${
                   isVisible ? "translate-x-0 opacity-100" : "-translate-x-16 opacity-0"
                 }`}
@@ -78,8 +78,8 @@ export function ContactSection() {
                   <Mail className="h-3 w-3 text-foreground/60" />
                   <span className="font-mono text-xs text-foreground/60">Email</span>
                 </div>
-                <p className="text-sm text-foreground transition-colors group-hover:text-foreground/70 md:text-2xl">
-                  info@strajdom.ru
+                <p className="break-all text-sm font-light text-foreground transition-colors group-hover:text-foreground/70 md:break-normal md:text-2xl">
+                  info@komfortgard.ru
                 </p>
               </a>
 
@@ -93,11 +93,11 @@ export function ContactSection() {
                   <MapPin className="h-3 w-3 text-foreground/60" />
                   <span className="font-mono text-xs text-foreground/60">Локация</span>
                 </div>
-                <p className="text-sm text-foreground md:text-2xl">СПб и Лен. область</p>
+                <p className="text-sm font-light text-foreground md:text-2xl">СПб и Лен. область</p>
               </div>
 
               <div
-                className={`flex gap-3 pt-0 transition-all duration-700 md:pt-4 ${
+                className={`flex flex-col gap-1.5 transition-all duration-700 md:flex-row md:gap-3 md:pt-4 ${
                   isVisible ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
                 }`}
                 style={{ transitionDelay: "500ms" }}
@@ -115,9 +115,8 @@ export function ContactSection() {
             </div>
           </div>
 
-          {/* Right side - Minimal form */}
           <div className="flex flex-col justify-center">
-            <form onSubmit={handleSubmit} className="space-y-3 md:space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               <div
                 className={`transition-all duration-700 ${
                   isVisible ? "translate-x-0 opacity-100" : "translate-x-16 opacity-0"
@@ -160,11 +159,11 @@ export function ContactSection() {
               >
                 <label className="mb-1 block font-mono text-xs text-foreground/60">Сообщение</label>
                 <textarea
-                  rows={2}
+                  rows={3}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   required
-                  className="w-full border-b border-foreground/30 bg-transparent py-2 text-sm text-foreground placeholder:text-foreground/40 focus:border-foreground/50 focus:outline-none md:text-base"
+                  className="w-full resize-none border-b border-foreground/30 bg-transparent py-2 text-sm text-foreground placeholder:text-foreground/40 focus:border-foreground/50 focus:outline-none md:text-base"
                   placeholder="Расскажите об объекте..."
                 />
               </div>
