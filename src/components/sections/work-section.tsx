@@ -8,7 +8,7 @@ const projects = [
     category: "Видеонаблюдение + Умный дом",
     year: "2025",
     direction: "left",
-    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/44bf094e-3f44-4b74-bec1-221d93706f7a.jpg",
+    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/fa107ef4-5b74-418e-a1f5-8cf9a1689a0c.jpg",
   },
   {
     number: "02",
@@ -16,7 +16,7 @@ const projects = [
     category: "Домофония + Контроль доступа",
     year: "2025",
     direction: "right",
-    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/ff6e53bc-a5f8-4989-943a-34be178c66b6.jpg",
+    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/f3b9021d-3468-40ea-a7c3-0306983fe57f.jpg",
   },
   {
     number: "03",
@@ -24,7 +24,7 @@ const projects = [
     category: "Бесшовный Wi-Fi + Электромонтаж",
     year: "2024",
     direction: "left",
-    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/e585edbd-875c-40b6-8ee6-8e56c8f8f6d8.jpg",
+    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/eaeeab48-3b69-473a-8c16-0402481f06dd.jpg",
   },
   {
     number: "04",
@@ -32,7 +32,7 @@ const projects = [
     category: "Комплексная безопасность под ключ",
     year: "2024",
     direction: "right",
-    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/fa494984-a30f-4c28-bb19-a3033bad2afd.jpg",
+    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/1df4a06f-ab02-4e3d-9056-0ad458521557.jpg",
   },
 ]
 

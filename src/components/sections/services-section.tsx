@@ -1,55 +1,17 @@
 import { useReveal } from "@/hooks/use-reveal"
-
-const services = [
-  {
-    title: "Видеонаблюдение",
-    description: "IP-камеры и системы записи для дома и территории. Удалённый просмотр с телефона 24/7",
-    direction: "top",
-    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/dfcd0a80-c03e-4c18-aea3-6d89f404e338.jpg",
-  },
-  {
-    title: "Электромонтаж",
-    description: "Профессиональный монтаж электрики: щитки, розетки, освещение — под ключ с гарантией",
-    direction: "right",
-    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/e978d08e-5114-4fa7-8ec3-c1a3bf484a31.jpg",
-  },
-  {
-    title: "Домофония и контроль доступа",
-    description: "Видеодомофоны, электромагнитные замки и умные ключи для квартир и коттеджей",
-    direction: "left",
-    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/447ca33a-0deb-4e77-bb43-2df49ad853a8.jpg",
-  },
-  {
-    title: "Бесшовный Wi-Fi",
-    description: "Mesh-сети и точки доступа для полного покрытия дома без мёртвых зон",
-    direction: "bottom",
-    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/122f1ed0-aca1-465c-b7bf-e5b71f0f43d4.jpg",
-  },
-  {
-    title: "Умный дом",
-    description: "Автоматизация отопления, света, вентиляции и охраны — управление со смартфона",
-    direction: "top",
-    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/5a98adbb-0c32-4875-bb88-91e248df5dd1.jpg",
-  },
-  {
-    title: "Техническое обслуживание",
-    description: "Регулярное обслуживание и поддержка систем безопасности после установки",
-    direction: "right",
-    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/c8580955-18f6-43f4-a38e-c0fc56de69de.jpg",
-  },
-]
+import Icon from "@/components/ui/icon"
 
 export function ServicesSection() {
-  const { ref, isVisible } = useReveal(0.2)
+  const { ref, isVisible } = useReveal(0.3)
 
   return (
     <section
       ref={ref}
-      className="flex min-h-screen w-full flex-col justify-center px-4 py-16 md:h-screen md:w-screen md:shrink-0 md:snap-start md:overflow-hidden md:px-12 md:py-0 lg:px-16"
+      className="flex min-h-screen w-full flex-col justify-center px-4 py-20 md:h-screen md:w-screen md:shrink-0 md:snap-start md:overflow-hidden md:px-12 md:py-0 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div
-          className={`mb-6 transition-all duration-700 md:mb-10 ${
+          className={`mb-4 transition-all duration-700 md:mb-8 ${
             isVisible ? "translate-y-0 opacity-100" : "-translate-y-12 opacity-0"
           }`}
         >
@@ -59,8 +21,45 @@ export function ServicesSection() {
           <p className="font-mono text-xs text-foreground/60 md:text-base">/ Что мы устанавливаем</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:gap-5">
-          {services.map((service, i) => (
+        <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 md:grid-cols-3 md:gap-x-12 md:gap-y-8 lg:gap-x-16">
+          {[
+            {
+              title: "Видеонаблюдение",
+              description: "IP-камеры и системы записи для дома и территории. Удалённый просмотр с телефона 24/7",
+              direction: "top",
+              icon: "Camera",
+            },
+            {
+              title: "Электромонтаж",
+              description: "Профессиональный монтаж электрики: щитки, розетки, освещение — под ключ с гарантией",
+              direction: "right",
+              icon: "Zap",
+            },
+            {
+              title: "Домофония и контроль доступа",
+              description: "Видеодомофоны, электромагнитные замки и умные ключи для квартир и коттеджей",
+              direction: "left",
+              icon: "DoorOpen",
+            },
+            {
+              title: "Бесшовный Wi-Fi",
+              description: "Mesh-сети и точки доступа для полного покрытия дома без мёртвых зон",
+              direction: "bottom",
+              icon: "Wifi",
+            },
+            {
+              title: "Умный дом",
+              description: "Автоматизация отопления, света, вентиляции и охраны — управление со смартфона",
+              direction: "top",
+              icon: "Home",
+            },
+            {
+              title: "Техническое обслуживание",
+              description: "Регулярное обслуживание и поддержка систем безопасности после установки",
+              direction: "right",
+              icon: "Wrench",
+            },
+          ].map((service, i) => (
             <ServiceCard key={i} service={service} index={i} isVisible={isVisible} />
           ))}
         </div>
@@ -74,18 +73,23 @@ function ServiceCard({
   index,
   isVisible,
 }: {
-  service: { title: string; description: string; direction: string; image: string }
+  service: { title: string; description: string; direction: string; icon: string }
   index: number
   isVisible: boolean
 }) {
   const getRevealClass = () => {
     if (!isVisible) {
       switch (service.direction) {
-        case "left": return "-translate-x-10 opacity-0"
-        case "right": return "translate-x-10 opacity-0"
-        case "top": return "-translate-y-10 opacity-0"
-        case "bottom": return "translate-y-10 opacity-0"
-        default: return "translate-y-8 opacity-0"
+        case "left":
+          return "-translate-x-16 opacity-0"
+        case "right":
+          return "translate-x-16 opacity-0"
+        case "top":
+          return "-translate-y-16 opacity-0"
+        case "bottom":
+          return "translate-y-16 opacity-0"
+        default:
+          return "translate-y-12 opacity-0"
       }
     }
     return "translate-x-0 translate-y-0 opacity-100"
@@ -93,26 +97,20 @@ function ServiceCard({
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-xl transition-all duration-700 ${getRevealClass()}`}
-      style={{ transitionDelay: `${index * 100}ms` }}
+      className={`group flex items-start gap-3 border-b border-foreground/10 py-3 transition-all duration-700 sm:block sm:border-0 sm:py-0 md:gap-0 ${getRevealClass()}`}
+      style={{
+        transitionDelay: `${index * 150}ms`,
+      }}
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden">
-        <img
-          src={service.image}
-          alt={service.title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      <div className="mb-0 flex shrink-0 items-center gap-3 sm:mb-3">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/10 text-foreground/70 transition-all duration-300 group-hover:bg-foreground/20 group-hover:text-foreground sm:h-9 sm:w-9">
+          <Icon name={service.icon} size={16} />
+        </div>
+        <span className="font-mono text-xs text-foreground/60 sm:block">0{index + 1}</span>
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 p-2.5 md:p-4">
-        <span className="mb-0.5 block font-mono text-[10px] text-white/50 md:text-xs">0{index + 1}</span>
-        <h3 className="mb-0.5 font-sans text-xs font-medium leading-tight text-white md:mb-1 md:text-base lg:text-lg">
-          {service.title}
-        </h3>
-        <p className="hidden text-xs leading-snug text-white/70 sm:block md:text-sm">
-          {service.description}
-        </p>
+      <div>
+        <h3 className="mb-0.5 font-sans text-base font-light text-foreground sm:mb-1.5 md:text-xl lg:text-2xl">{service.title}</h3>
+        <p className="text-xs leading-relaxed text-foreground/80 md:text-sm">{service.description}</p>
       </div>
     </div>
   )
