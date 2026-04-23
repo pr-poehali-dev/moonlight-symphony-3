@@ -22,13 +22,13 @@ def send_email_via_api(to_email, name, email, message):
     from email.mime.multipart import MIMEMultipart
 
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = "Новая заявка с сайта СтражДом от " + name
+    msg["Subject"] = "Новая заявка с сайта КомфортГард от " + name
     msg["From"] = "noreply@poehali.dev"
     msg["To"] = to_email
 
     html = (
         "<html><body style='font-family:Arial,sans-serif;color:#222;max-width:600px;margin:0 auto;'>"
-        "<h2 style='color:#1a3a6b;'>Новая заявка — СтражДом</h2>"
+        "<h2 style='color:#1a3a6b;'>Новая заявка — КомфортГард</h2>"
         "<table style='width:100%;border-collapse:collapse;'>"
         "<tr><td style='padding:8px;font-weight:bold;width:120px;'>Имя:</td><td style='padding:8px;'>" + name + "</td></tr>"
         "<tr style='background:#f5f5f5;'><td style='padding:8px;font-weight:bold;'>Email:</td><td style='padding:8px;'>" + email + "</td></tr>"
@@ -47,7 +47,7 @@ def send_email_via_api(to_email, name, email, message):
 
 
 def handler(event: dict, context) -> dict:
-    """Принимает заявку с формы сайта СтражДом и отправляет уведомления в Telegram и на email."""
+    """Принимает заявку с формы сайта КомфортГард и отправляет уведомления в Telegram и на email."""
     cors_headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -72,7 +72,7 @@ def handler(event: dict, context) -> dict:
     chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
     if bot_token and chat_id:
         tg_text = (
-            "<b>Новая заявка — СтражДом</b>\n\n"
+            "<b>Новая заявка — КомфортГард</b>\n\n"
             "<b>Имя:</b> " + name + "\n"
             "<b>Email:</b> " + email + "\n"
             "<b>Сообщение:</b>\n" + message

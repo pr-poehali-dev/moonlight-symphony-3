@@ -8,7 +8,7 @@ const projects = [
     category: "Видеонаблюдение + Умный дом",
     year: "2025",
     direction: "left",
-    image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80",
+    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/44bf094e-3f44-4b74-bec1-221d93706f7a.jpg",
   },
   {
     number: "02",
@@ -16,7 +16,7 @@ const projects = [
     category: "Домофония + Контроль доступа",
     year: "2025",
     direction: "right",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80",
+    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/ff6e53bc-a5f8-4989-943a-34be178c66b6.jpg",
   },
   {
     number: "03",
@@ -24,7 +24,7 @@ const projects = [
     category: "Бесшовный Wi-Fi + Электромонтаж",
     year: "2024",
     direction: "left",
-    image: "https://images.unsplash.com/photo-1449844908441-8829872d2607?w=600&q=80",
+    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/e585edbd-875c-40b6-8ee6-8e56c8f8f6d8.jpg",
   },
   {
     number: "04",
@@ -32,7 +32,7 @@ const projects = [
     category: "Комплексная безопасность под ключ",
     year: "2024",
     direction: "right",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80",
+    image: "https://cdn.poehali.dev/projects/5e6b1d27-faaf-46d8-8fec-4a572cc8d6a7/files/fa494984-a30f-4c28-bb19-a3033bad2afd.jpg",
   },
 ]
 
@@ -122,19 +122,26 @@ function ProjectCard({
 
   return (
     <div
-      className={`group flex w-full items-center justify-between border-b border-foreground/10 py-4 transition-all duration-700 hover:border-foreground/20 md:py-8 ${getRevealClass()} cursor-pointer`}
+      className={`group flex w-full items-center justify-between border-b border-foreground/10 py-3 transition-all duration-700 hover:border-foreground/20 md:py-8 ${getRevealClass()} cursor-pointer`}
       style={{
         transitionDelay: `${index * 150}ms`,
       }}
       onMouseEnter={() => onHover(index)}
       onMouseLeave={() => onHover(null)}
     >
-      <div className="flex items-baseline gap-3 md:gap-8">
-        <span className="shrink-0 font-mono text-xs text-foreground/30 transition-colors group-hover:text-foreground/50 md:text-base">
+      <div className="flex items-center gap-3 md:gap-8">
+        <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-lg md:hidden">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        </div>
+        <span className="hidden shrink-0 font-mono text-xs text-foreground/30 transition-colors group-hover:text-foreground/50 md:block md:text-base">
           {project.number}
         </span>
         <div className="min-w-0">
-          <h3 className="mb-0.5 truncate font-sans text-lg font-light text-foreground transition-transform duration-300 group-hover:translate-x-1 md:mb-1 md:text-3xl md:group-hover:translate-x-2 lg:text-4xl">
+          <h3 className="mb-0.5 truncate font-sans text-base font-light text-foreground transition-transform duration-300 group-hover:translate-x-1 md:mb-1 md:text-3xl md:group-hover:translate-x-2 lg:text-4xl">
             {project.title}
           </h3>
           <p className="truncate font-mono text-xs text-foreground/50">{project.category}</p>
