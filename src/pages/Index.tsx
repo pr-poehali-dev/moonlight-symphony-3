@@ -355,7 +355,7 @@ export default function Index() {
                 <p className="font-mono text-xs text-foreground/90">Профессиональная установка под ключ</p>
               </div>
               <h1 className="mb-4 font-sans text-4xl font-light leading-[1.1] tracking-tight text-foreground">
-                Комфорт в ваш дом
+                Уют и безопасность в ваш дом
               </h1>
               <p className="mb-6 text-base leading-relaxed text-foreground/90">
                 Видеонаблюдение, умный дом и безопасность для загородных домов и квартир. Установка «под ключ» — без лишних хлопот.
@@ -400,7 +400,7 @@ export default function Index() {
                 <p className="font-mono text-xs text-foreground/90">Профессиональная установка под ключ</p>
               </div>
               <h1 className="mb-4 animate-in fade-in slide-in-from-bottom-8 font-sans text-4xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-5xl md:mb-6 md:text-7xl lg:text-8xl">
-                <span className="text-balance">Комфорт в ваш дом</span>
+                <span className="text-balance">Уют и безопасность в ваш дом</span>
               </h1>
               <p className="mb-6 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-foreground/90 duration-1000 delay-200 md:mb-8 md:text-xl">
                 <span className="text-pretty">
