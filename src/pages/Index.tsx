@@ -399,12 +399,12 @@ export default function Index() {
               <div className="mb-4 inline-block animate-in fade-in slide-in-from-bottom-4 rounded-full border border-foreground/20 bg-foreground/15 px-3 py-1.5 backdrop-blur-md duration-700 md:px-4">
                 <p className="font-mono text-xs text-foreground/90">Профессиональная установка под ключ</p>
               </div>
-              <h1 className="mb-4 animate-in fade-in slide-in-from-bottom-8 font-sans text-4xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-5xl md:mb-6 md:text-7xl lg:text-8xl">
+              <h1 className="mb-4 animate-in fade-in slide-in-from-bottom-8 font-sans text-4xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-5xl md:mb-6 md:text-5xl lg:text-6xl">
                 <span className="text-balance">Уют и безопасность в ваш дом</span>
               </h1>
               <p className="mb-6 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-foreground/90 duration-1000 delay-200 md:mb-8 md:text-xl">
                 <span className="text-pretty">
-                  Видеонаблюдение, умный дом и безопасность для загородных домов и квартир. Установка «под ключ» — без лишних хлопот.
+                  Умный дом, видеонаблюдение и безопасность для загородных домов и квартир. Установка «под ключ» — без лишних хлопот.
                 </span>
               </p>
               <div className="flex animate-in fade-in slide-in-from-bottom-4 flex-col gap-3 duration-1000 delay-300 sm:flex-row sm:items-center sm:gap-4">
