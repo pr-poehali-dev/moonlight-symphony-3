@@ -262,8 +262,8 @@ export default function Index() {
             </svg>
           </div>
           <div className="flex flex-col leading-tight">
-            <span className="font-sans text-base font-bold tracking-wide text-foreground">E-Home</span>
-            <span className="font-sans text-base font-bold tracking-wide text-foreground">Systems</span>
+            <span className="font-sans text-2xl font-bold tracking-wide text-foreground">E-Home</span>
+            <span className="font-sans text-2xl font-bold tracking-wide text-foreground">Systems</span>
           </div>
         </button>
 
