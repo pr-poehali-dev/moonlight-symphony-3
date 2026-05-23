@@ -18,7 +18,7 @@ def send_telegram(bot_token, chat_id, text):
     urllib.request.urlopen(req, timeout=10)
 
 
-def send_email_smtp(to_email, name, email, message):
+def send_email_smtp(to_email, name, phone, email, message):
     """Отправить email через SMTP Timeweb."""
     smtp_host = "smtp.timeweb.ru"
     smtp_port = 465
@@ -28,13 +28,15 @@ def send_email_smtp(to_email, name, email, message):
         print("[email] SMTP_PASSWORD not set, skipping")
         return
 
+
     html = (
         "<html><body style='font-family:Arial,sans-serif;color:#222;max-width:600px;margin:0 auto;'>"
         "<h2 style='color:#1a3a6b;'>Новая заявка — E-Home Systems</h2>"
         "<table style='width:100%;border-collapse:collapse;'>"
         "<tr><td style='padding:8px;font-weight:bold;width:120px;'>Имя:</td><td style='padding:8px;'>" + name + "</td></tr>"
-        "<tr style='background:#f5f5f5;'><td style='padding:8px;font-weight:bold;'>Email клиента:</td><td style='padding:8px;'>" + email + "</td></tr>"
-        "<tr><td style='padding:8px;font-weight:bold;'>Сообщение:</td><td style='padding:8px;'>" + message + "</td></tr>"
+        "<tr style='background:#f5f5f5;'><td style='padding:8px;font-weight:bold;'>Телефон:</td><td style='padding:8px;'>" + phone + "</td></tr>"
+        "<tr><td style='padding:8px;font-weight:bold;'>Email:</td><td style='padding:8px;'>" + email + "</td></tr>"
+        "<tr style='background:#f5f5f5;'><td style='padding:8px;font-weight:bold;'>Сообщение:</td><td style='padding:8px;'>" + message + "</td></tr>"
         "</table>"
         "<p style='margin-top:24px;color:#666;font-size:13px;'>Заявка получена с сайта E-Home Systems — e-homesystems.ru</p>"
         "</body></html>"
@@ -68,10 +70,11 @@ def handler(event: dict, context) -> dict:
 
     body = json.loads(event.get("body") or "{}")
     name = str(body.get("name", "")).strip()
+    phone = str(body.get("phone", "")).strip()
     email = str(body.get("email", "")).strip()
     message = str(body.get("message", "")).strip()
 
-    if not name or not email or not message:
+    if not name or not phone or not email or not message:
         return {"statusCode": 400, "headers": cors_headers, "body": json.dumps({"error": "Все поля обязательны"})}
 
     bot_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -80,13 +83,14 @@ def handler(event: dict, context) -> dict:
         tg_text = (
             "<b>Новая заявка — E-Home Systems</b>\n\n"
             "<b>Имя:</b> " + name + "\n"
+            "<b>Телефон:</b> " + phone + "\n"
             "<b>Email:</b> " + email + "\n"
             "<b>Сообщение:</b>\n" + message
         )
         send_telegram(bot_token, chat_id, tg_text)
 
     notify_email = os.environ.get("NOTIFY_EMAIL", "info@ssb.spb.ru")
-    send_email_smtp(notify_email, name, email, message)
+    send_email_smtp(notify_email, name, phone, email, message)
 
     return {
         "statusCode": 200,

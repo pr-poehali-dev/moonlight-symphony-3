@@ -5,27 +5,24 @@ import { MagneticButton } from "@/components/magnetic-button"
 
 export function ContactSection() {
   const { ref, isVisible } = useReveal(0.3)
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" })
+  const [formData, setFormData] = useState({ name: "", phone: "", email: "", message: "" })
+  const [agreed, setAgreed] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    if (!formData.name || !formData.email || !formData.message) return
-
+    if (!formData.name || !formData.phone || !formData.email || !formData.message || !agreed) return
     setIsSubmitting(true)
-
     await fetch("https://functions.poehali.dev/657e434e-00af-4470-a3bd-98a3efc94d9f", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     })
-
     setIsSubmitting(false)
     setSubmitSuccess(true)
-    setFormData({ name: "", email: "", message: "" })
-
+    setFormData({ name: "", phone: "", email: "", message: "" })
+    setAgreed(false)
     setTimeout(() => setSubmitSuccess(false), 5000)
   }
 
@@ -138,6 +135,23 @@ export function ContactSection() {
                 className={`transition-all duration-700 ${
                   isVisible ? "translate-x-0 opacity-100" : "translate-x-16 opacity-0"
                 }`}
+                style={{ transitionDelay: "300ms" }}
+              >
+                <label className="mb-1 block font-mono text-xs text-foreground/60">Телефон *</label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  required
+                  className="w-full border-b border-foreground/30 bg-transparent py-2 text-sm text-foreground placeholder:text-foreground/40 focus:border-foreground/50 focus:outline-none md:text-base"
+                  placeholder="+7 (___) ___-__-__"
+                />
+              </div>
+
+              <div
+                className={`transition-all duration-700 ${
+                  isVisible ? "translate-x-0 opacity-100" : "translate-x-16 opacity-0"
+                }`}
                 style={{ transitionDelay: "350ms" }}
               >
                 <label className="mb-1 block font-mono text-xs text-foreground/60">Email</label>
@@ -172,17 +186,41 @@ export function ContactSection() {
                 className={`transition-all duration-700 ${
                   isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
                 }`}
-                style={{ transitionDelay: "650ms" }}
+                style={{ transitionDelay: "600ms" }}
               >
-                <a href="tel:+79533555693" className="block w-full">
-                  <MagneticButton
-                    variant="primary"
-                    size="lg"
-                    className="w-full"
-                  >
-                    Заказать консультацию
-                  </MagneticButton>
-                </a>
+                <label className="flex cursor-pointer items-start gap-2.5">
+                  <input
+                    type="checkbox"
+                    checked={agreed}
+                    onChange={(e) => setAgreed(e.target.checked)}
+                    required
+                    className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-foreground"
+                  />
+                  <span className="font-mono text-[10px] leading-relaxed text-foreground/50 md:text-xs">
+                    Нажимая кнопку, я даю согласие на обработку персональных данных в соответствии с{" "}
+                    <a href="#" className="underline underline-offset-2 hover:text-foreground/80 transition-colors">
+                      Политикой конфиденциальности
+                    </a>{" "}
+                    согласно Федеральному закону №152-ФЗ «О персональных данных»
+                  </span>
+                </label>
+              </div>
+
+              <div
+                className={`transition-all duration-700 ${
+                  isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
+                }`}
+                style={{ transitionDelay: "700ms" }}
+              >
+                <MagneticButton
+                  variant="primary"
+                  size="lg"
+                  className="w-full"
+                  type="submit"
+                  disabled={isSubmitting || !agreed}
+                >
+                  {isSubmitting ? "Отправляем..." : "Заказать консультацию"}
+                </MagneticButton>
                 {submitSuccess && (
                   <p className="mt-3 text-center font-mono text-xs text-foreground/80 md:text-sm">Заявка принята! Свяжемся с вами в течение часа.</p>
                 )}
