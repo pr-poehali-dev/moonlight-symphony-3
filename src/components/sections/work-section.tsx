@@ -68,7 +68,7 @@ export function WorkSection() {
   return (
     <section
       ref={ref}
-      className="flex min-h-screen w-full flex-col justify-center px-4 py-20 md:h-screen md:w-screen md:shrink-0 md:snap-start md:overflow-hidden md:px-12 md:py-0 lg:px-16"
+      className="flex min-h-screen w-full flex-col justify-center px-4 py-20 md:h-screen md:w-screen md:shrink-0 md:snap-start md:overflow-hidden md:px-12 md:py-16 lg:px-16"
       onMouseMove={handleMouseMove}
     >
       <div className="mx-auto w-full max-w-7xl">
@@ -83,7 +83,7 @@ export function WorkSection() {
           <p className="font-mono text-xs text-foreground/60 md:text-base">/ Реализованные объекты</p>
         </div>
 
-        <div className="space-y-0 md:space-y-4">
+        <div className="space-y-0">
           {projects.map((project, i) => (
             <ProjectCard
               key={i}
@@ -138,7 +138,7 @@ function ProjectCard({
 
   return (
     <div
-      className={`group flex w-full items-center justify-between border-b border-foreground/10 py-3 transition-all duration-700 hover:border-foreground/20 md:py-4 ${getRevealClass()} cursor-pointer`}
+      className={`group flex w-full items-center justify-between border-b border-foreground/10 py-3 transition-all duration-700 hover:border-foreground/20 md:py-3 ${getRevealClass()} cursor-pointer`}
       style={{
         transitionDelay: `${index * 150}ms`,
       }}
