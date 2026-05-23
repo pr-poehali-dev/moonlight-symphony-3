@@ -68,22 +68,22 @@ export function WorkSection() {
   return (
     <section
       ref={ref}
-      className="flex min-h-screen w-full flex-col justify-center px-4 py-20 md:h-screen md:w-screen md:shrink-0 md:snap-start md:overflow-hidden md:px-12 md:py-16 lg:px-16"
+      className="flex min-h-screen w-full flex-col justify-center px-4 py-20 md:h-screen md:w-screen md:shrink-0 md:snap-start md:overflow-hidden md:px-12 md:py-0 lg:px-16"
       onMouseMove={handleMouseMove}
     >
       <div className="mx-auto w-full max-w-7xl">
         <div
-          className={`mb-6 transition-all duration-700 md:mb-6 ${
+          className={`mb-4 transition-all duration-700 md:mb-8 ${
             isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
           }`}
         >
-          <h2 className="mb-1 font-sans text-3xl font-light tracking-tight text-foreground md:mb-2 md:text-4xl lg:text-5xl">
+          <h2 className="mb-1 font-sans text-3xl font-light tracking-tight text-foreground md:mb-2 md:text-5xl lg:text-6xl">
             Проекты
           </h2>
           <p className="font-mono text-xs text-foreground/60 md:text-base">/ Реализованные объекты</p>
         </div>
 
-        <div className="space-y-0">
+        <div className="space-y-0 md:max-h-[calc(100vh-220px)] md:overflow-hidden">
           {projects.map((project, i) => (
             <ProjectCard
               key={i}
