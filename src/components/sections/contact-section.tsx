@@ -198,7 +198,7 @@ export function ContactSection() {
                   />
                   <span className="font-mono text-[10px] leading-relaxed text-foreground/50 md:text-xs">
                     Нажимая кнопку, я даю согласие на обработку персональных данных в соответствии с{" "}
-                    <a href="#" className="underline underline-offset-2 hover:text-foreground/80 transition-colors">
+                    <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground/80 transition-colors">
                       Политикой конфиденциальности
                     </a>{" "}
                     согласно Федеральному закону №152-ФЗ «О персональных данных»
