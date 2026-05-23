@@ -261,7 +261,7 @@ export default function Index() {
               <path d="M9 21V12h6v9"/>
             </svg>
           </div>
-          <span className="font-sans text-xl font-bold tracking-wide text-foreground">E-Home Systems</span>
+          <span className="font-sans text-sm font-semibold tracking-wide text-foreground">E-Home Systems</span>
         </button>
 
         {/* Desktop nav */}
