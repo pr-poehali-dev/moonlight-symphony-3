@@ -73,11 +73,11 @@ export function WorkSection() {
     >
       <div className="mx-auto w-full max-w-7xl">
         <div
-          className={`mb-6 transition-all duration-700 md:mb-16 ${
+          className={`mb-6 transition-all duration-700 md:mb-6 ${
             isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
           }`}
         >
-          <h2 className="mb-1 font-sans text-3xl font-light tracking-tight text-foreground md:mb-2 md:text-6xl lg:text-7xl">
+          <h2 className="mb-1 font-sans text-3xl font-light tracking-tight text-foreground md:mb-2 md:text-4xl lg:text-5xl">
             Проекты
           </h2>
           <p className="font-mono text-xs text-foreground/60 md:text-base">/ Реализованные объекты</p>
@@ -138,7 +138,7 @@ function ProjectCard({
 
   return (
     <div
-      className={`group flex w-full items-center justify-between border-b border-foreground/10 py-3 transition-all duration-700 hover:border-foreground/20 md:py-8 ${getRevealClass()} cursor-pointer`}
+      className={`group flex w-full items-center justify-between border-b border-foreground/10 py-3 transition-all duration-700 hover:border-foreground/20 md:py-4 ${getRevealClass()} cursor-pointer`}
       style={{
         transitionDelay: `${index * 150}ms`,
       }}
@@ -157,7 +157,7 @@ function ProjectCard({
           {project.number}
         </span>
         <div className="min-w-0">
-          <h3 className="mb-0.5 truncate font-sans text-base font-light text-foreground transition-transform duration-300 group-hover:translate-x-1 md:mb-1 md:text-3xl md:group-hover:translate-x-2 lg:text-4xl">
+          <h3 className="mb-0.5 truncate font-sans text-base font-light text-foreground transition-transform duration-300 group-hover:translate-x-1 md:mb-1 md:text-2xl md:group-hover:translate-x-2 lg:text-3xl">
             {project.title}
           </h3>
           <p className="truncate font-mono text-xs text-foreground/50">{project.category}</p>
