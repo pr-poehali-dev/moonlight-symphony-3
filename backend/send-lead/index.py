@@ -1,7 +1,9 @@
 import json
 import os
-import urllib.error
+import smtplib
 import urllib.request
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 def send_telegram(bot_token, chat_id, text):
@@ -16,10 +18,14 @@ def send_telegram(bot_token, chat_id, text):
     urllib.request.urlopen(req, timeout=10)
 
 
-def send_email_resend(to_email, name, email, message):
-    """Отправить email через Resend HTTP API."""
-    api_key = os.environ.get("RESEND_API_KEY", "")
-    if not api_key:
+def send_email_smtp(to_email, name, email, message):
+    """Отправить email через SMTP Timeweb."""
+    smtp_host = "smtp.timeweb.ru"
+    smtp_port = 465
+    smtp_user = "info@ssb.spb.ru"
+    smtp_password = os.environ.get("SMTP_PASSWORD", "")
+    if not smtp_password:
+        print("[email] SMTP_PASSWORD not set, skipping")
         return
 
     html = (
@@ -27,38 +33,23 @@ def send_email_resend(to_email, name, email, message):
         "<h2 style='color:#1a3a6b;'>Новая заявка — E-Home Systems</h2>"
         "<table style='width:100%;border-collapse:collapse;'>"
         "<tr><td style='padding:8px;font-weight:bold;width:120px;'>Имя:</td><td style='padding:8px;'>" + name + "</td></tr>"
-        "<tr style='background:#f5f5f5;'><td style='padding:8px;font-weight:bold;'>Email:</td><td style='padding:8px;'>" + email + "</td></tr>"
+        "<tr style='background:#f5f5f5;'><td style='padding:8px;font-weight:bold;'>Email клиента:</td><td style='padding:8px;'>" + email + "</td></tr>"
         "<tr><td style='padding:8px;font-weight:bold;'>Сообщение:</td><td style='padding:8px;'>" + message + "</td></tr>"
         "</table>"
         "<p style='margin-top:24px;color:#666;font-size:13px;'>Заявка получена с сайта E-Home Systems — e-homesystems.ru</p>"
         "</body></html>"
     )
 
-    payload = json.dumps({
-        "from": "E-Home Systems <onboarding@resend.dev>",
-        "to": [to_email],
-        "subject": "Новая заявка с сайта E-Home Systems от " + name,
-        "html": html
-    }).encode("utf-8")
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = "Новая заявка с сайта E-Home Systems от " + name
+    msg["From"] = "E-Home Systems <info@ssb.spb.ru>"
+    msg["To"] = to_email
+    msg.attach(MIMEText(html, "html", "utf-8"))
 
-    req = urllib.request.Request(
-        "https://api.resend.com/emails",
-        data=payload,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + api_key
-        }
-    )
-    try:
-        resp = urllib.request.urlopen(req, timeout=15)
-        print("[email] sent ok:", resp.status)
-    except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8", errors="replace")
-        print("[email] HTTP error:", e.code, body)
-        raise
-    except Exception as e:
-        print("[email] error:", str(e))
-        raise
+    with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15) as server:
+        server.login(smtp_user, smtp_password)
+        server.sendmail(smtp_user, [to_email], msg.as_string())
+    print("[email] sent ok via SMTP to", to_email)
 
 
 def handler(event: dict, context) -> dict:
@@ -95,7 +86,7 @@ def handler(event: dict, context) -> dict:
         send_telegram(bot_token, chat_id, tg_text)
 
     notify_email = os.environ.get("NOTIFY_EMAIL", "info@ssb.spb.ru")
-    send_email_resend(notify_email, name, email, message)
+    send_email_smtp(notify_email, name, email, message)
 
     return {
         "statusCode": 200,
